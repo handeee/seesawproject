@@ -4,12 +4,26 @@ const ctx = c.getContext("2d");
 const sonEklenenDisplay = document.getElementById("sonEklenenResult");
 const resetBtn = document.getElementById("resetBtn");
 const aciDisplay = document.getElementById("aci");
-const pauseBtn = document.getElementById("pauseBtn");
+const agirlikDisplay = document.getElementById("agirlik");
 //  Yeni eklenen display alanları
 const sagToplamDisplay = document.getElementById("sagToplam");
 const solToplamDisplay = document.getElementById("solToplam");
 
 let agirliklar = [];
+// localStorage'dan verileri yükle
+const kaydedilenVeri = localStorage.getItem("agirliklar");
+if (kaydedilenVeri) {
+  try {
+    agirliklar = JSON.parse(kaydedilenVeri);
+  } catch (e) {
+    console.error("Veri yüklenemedi:", e);
+    agirliklar = [];
+  }
+}
+const sonEklenen = localStorage.getItem("sonEklenen");
+if (sonEklenen) {
+  sonEklenenDisplay.innerText = sonEklenen;
+}
 const PIVOT_X = 250;
 const PIVOT_Y = 150;
 const BAR_YARI_GENISLIK = 200;
@@ -108,6 +122,9 @@ c.addEventListener("click", function (event) {
   ) {
     agirliklar.push({ deger: randomNumber, pozX: unrotatedX });
     sonEklenenDisplay.innerText = randomNumber + "kg";
+    localStorage.setItem("agirliklar", JSON.stringify(agirliklar));
+    localStorage.setItem("sonEklenen", randomNumber + "kg");
+
     ciz();
   }
 });
@@ -117,6 +134,8 @@ resetBtn.addEventListener("click", function () {
   sonEklenenDisplay.innerText = "";
   sagToplamDisplay.innerText = "0 kg";
   solToplamDisplay.innerText = "0 kg";
+  localStorage.removeItem("agirliklar");
+  localStorage.removeItem("sonEklenen");
   ciz();
 });
 
