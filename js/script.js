@@ -4,7 +4,7 @@ const ctx = c.getContext("2d");
 const sonEklenenDisplay = document.getElementById("sonEklenenResult");
 const resetBtn = document.getElementById("resetBtn");
 const aciDisplay = document.getElementById("aci");
-
+const pauseBtn = document.getElementById("pauseBtn");
 //  Yeni eklenen display alanları
 const sagToplamDisplay = document.getElementById("sagToplam");
 const solToplamDisplay = document.getElementById("solToplam");
