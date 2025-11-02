@@ -11,6 +11,9 @@ c.addEventListener("click", function () {
   result.innerText = ramdomNumber;
 
   ctx.clearRect(0, 0, c.width, c.height); // eski çizimi temizle
+  // Dereceyi hesapla ve sınırla
+  let derece = (ramdomNumber - 50) * 0.5;
+  derece = Math.max(-30, Math.min(30, derece));
   ctx.save(); // mevcut transformu kaydet
 
   ctx.translate(350, 120); // dikdörtgenin ortasına taşı
