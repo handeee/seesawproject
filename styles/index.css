@@ -1,0 +1,93 @@
+body,html{
+    background-color: lightblue;
+    margin:0;
+    padding:0;
+}
+.container {
+     position: relative;
+     width: 500px;
+      height: 300px;
+      margin: 0 auto; /* yatay ortala */
+      display: flex;
+flex-direction: column;
+        justify-content: center; /* yatay ortala */
+        margin-top: 100px;
+}
+#mycanvas{
+        border: 1px solid grey;
+        margin-bottom: 450px;
+        overflow: hidden;
+ }
+ .olcumler{
+    display:flex;
+    gap: 15px;
+    width: 100%;
+    flex-wrap: wrap;
+    text-align: center;
+
+ }
+.item{
+    display: flex;
+    flex-direction: column;
+    border : 2px solid black;
+    border-radius: 5px;
+    width: 110px;
+    height: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+    
+
+ }
+ h2{
+    text-align: center;
+    margin-bottom: 20px;
+ }
+@media(max-width:520px){
+    .container{
+        width:90%;
+        height:auto;
+    }
+    #canvas{
+        width:90%;
+        height: auto;
+    }
+   .olcumler{
+    margin-left: 30px;
+   }
+
+}
+@media(max-width:339px){
+  
+   .olcumler{
+    margin-left: 10px;
+   }
+
+}
+@media(max-width:267px){
+  
+   .olcumler{
+    margin-left: 60px;
+   }
+
+}
+@media(max-width:245px){
+  
+   .olcumler{
+    margin-left: 40px;
+   }
+
+}
+@media(max-width:236px){
+  
+   .olcumler{
+    margin-left: 35px;
+   }
+
+}
+@media(max-width:216px){
+  
+   .olcumler{
+    margin-left:18px;
+   }
+
+}
