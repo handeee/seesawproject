@@ -1,100 +1,93 @@
-body,html{
-    background-color: lightblue;
-    margin:0;
-    padding:0;
+body,
+html {
+  background-color: lightblue;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
 }
 .container {
-     position: relative;
-     width: 500px;
-      height: 300px;
-      margin: 0 auto; /* yatay ortala */
-      display: flex;
-flex-direction: column;
-        justify-content: center; /* yatay ortala */
-        margin-top: 100px;
+  position: relative;
+  width: 500px;
+  /* height: 300px; (Yükseklik otomatik olsun) */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 50px; /* Üst boşluk azaltıldı */
 }
-#mycanvas{
-        border: 1px solid grey;
-        margin-bottom: 450px;
-        overflow: hidden;
- }
- .olcumler{
-    display:flex;
-    gap: 15px;
-    width: 100%;
-    flex-wrap: wrap;
-    text-align: center;
-
- }
-.item{
-    display: flex;
-    flex-direction: column;
-    border : 2px solid black;
-    border-radius: 5px;
-    width: 110px;
-    height: 60px;
-    margin-bottom: 20px;
-    text-align: center;
-    background-color: rosybrown;
-
- }
- h2{
-    text-align: center;
-    margin-bottom: 20px;
- }
- button{
-   width: 120px;
-   height: 60px;
-   margin-top: 20px;
-   margin-left: 200px;
-   background-color: lightgrey;
- }
-@media(max-width:520px){
-    .container{
-        width:90%;
-        height:auto;
-    }
-    #canvas{
-        width:90%;
-        height: auto;
-    }
-   .olcumler{
-    margin-left: 30px;
-   }
-
+#myCanvas {
+  border: 1px solid grey;
+  margin-bottom: 20px; /* Butonla arası açıldı */
+  overflow: hidden;
+  background-color: #f0f0f0; /* Canvas'a hafif bir arkaplan */
 }
-@media(max-width:339px){
-  
-   .olcumler{
-    margin-left: 10px;
-   }
-
+.olcumler {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  flex-wrap: wrap;
+  text-align: center;
 }
-@media(max-width:267px){
-  
-   .olcumler{
-    margin-left: 60px;
-   }
-
+.item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Dikey ortalama */
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 110px;
+  height: 60px;
+  margin-bottom: 20px;
+  text-align: center;
+  background-color: rosybrown;
 }
-@media(max-width:245px){
-  
-   .olcumler{
-    margin-left: 40px;
-   }
-
+.item label {
+  font-size: 14px;
+  font-weight: bold;
 }
-@media(max-width:236px){
-  
-   .olcumler{
-    margin-left: 35px;
-   }
-
+.item p {
+  font-size: 16px;
+  margin: 4px 0 0 0;
 }
-@media(max-width:216px){
-  
-   .olcumler{
-    margin-left:18px;
-   }
-
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
 }
+button {
+  width: 120px;
+  height: 60px;
+  margin-top: 20px;
+  /* DÜZELTME: Otomatik ortalamak için 'margin: auto' */
+  margin-left: auto;
+  margin-right: auto;
+  display: block; /* 'margin: auto' için gerekli */
+  background-color: lightgrey;
+  border: 2px solid gray;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #b0b0b0;
+}
+
+/* --- RESPONSIVE DÜZELTMELERİ --- */
+@media (max-width: 520px) {
+  .container {
+    width: 90%;
+    height: auto;
+  }
+
+  /* DÜZELTME: #canvas yerine #myCanvas */
+  #myCanvas {
+    width: 100%; /* Kapsayıcının %100'ü */
+    height: auto;
+  }
+
+  .olcumler {
+    /* DÜZELTME: margin-left yerine justify-content */
+    justify-content: center;
+    margin-left: 0;
+  }
+}
+
+
