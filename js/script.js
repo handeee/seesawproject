@@ -5,11 +5,15 @@ const sonEklenenDisplay = document.getElementById("sonEklenenResult");
 const resetBtn = document.getElementById("resetBtn");
 const aciDisplay = document.getElementById("aci");
 const agirlikDisplay = document.getElementById("agirlik");
-//  Yeni eklenen display alanları
 const sagToplamDisplay = document.getElementById("sagToplam");
 const solToplamDisplay = document.getElementById("solToplam");
 
+let hiz = 0;
+const SURUKLENME = 0.98;
+const HIZLANMA = 0.008;
+
 let agirliklar = [];
+
 // localStorage'dan verileri yükle
 const kaydedilenVeri = localStorage.getItem("agirliklar");
 if (kaydedilenVeri) {
@@ -24,6 +28,7 @@ const sonEklenen = localStorage.getItem("sonEklenen");
 if (sonEklenen) {
   sonEklenenDisplay.innerText = sonEklenen;
 }
+
 const PIVOT_X = 250;
 const PIVOT_Y = 150;
 const BAR_YARI_GENISLIK = 200;
@@ -35,31 +40,36 @@ let guncelDerece = 0;
 function ciz() {
   ctx.clearRect(0, 0, c.width, c.height);
 
-  // --- 1. Moment ve taraf toplamları ---
+  // --- 1. ÖNCE moment ve taraf toplamlarını hesapla ---
   let toplamMoment = 0;
   let sagToplam = 0;
   let solToplam = 0;
 
   agirliklar.forEach((item) => {
     toplamMoment += item.deger * item.pozX;
-
     if (item.pozX > 0) sagToplam += item.deger;
     else solToplam += item.deger;
   });
 
-  // --- 2. Denge açısı ---
-  let derece = toplamMoment / 50;
-  derece = Math.max(-30, Math.min(30, derece));
-  guncelDerece = derece;
+  // --- 2. Hedef açıyı hesapla ---
+  let hedefDerece = toplamMoment / 50;
+  hedefDerece = Math.max(-30, Math.min(30, hedefDerece));
 
-  aciDisplay.innerText = derece.toFixed(1) + "°";
+  // --- 3. Fizik benzeri hareket (animasyon) ---
+  const fark = hedefDerece - guncelDerece;
+  hiz += fark * HIZLANMA;
+  hiz *= SURUKLENME;
+  guncelDerece += hiz;
+
+  // --- 4. Display güncelle ---
+  aciDisplay.innerText = guncelDerece.toFixed(1) + "°";
   sagToplamDisplay.innerText = sagToplam.toFixed(1) + " kg";
   solToplamDisplay.innerText = solToplam.toFixed(1) + " kg";
 
-  // --- 3. Tahta çizimi ---
+  // --- 5. Tahta çizimi ---
   ctx.save();
   ctx.translate(PIVOT_X, PIVOT_Y);
-  ctx.rotate((derece * Math.PI) / 180);
+  ctx.rotate((guncelDerece * Math.PI) / 180);
 
   ctx.fillStyle = "brown";
   ctx.fillRect(
@@ -69,7 +79,7 @@ function ciz() {
     BAR_YARI_YUKSEKLIK * 2
   );
 
-  // --- 4. Ağırlıkları çiz ---
+  // --- 6. Ağırlıkları çiz ---
   agirliklar.forEach((item) => {
     const agirlikDikeyPoz = -BAR_YARI_YUKSEKLIK - AGIRLIK_RADIUS;
     ctx.fillStyle = "pink";
@@ -89,7 +99,7 @@ function ciz() {
 
   ctx.restore();
 
-  // --- 5. Pivot üçgeni ---
+  // --- 7. Pivot üçgeni ---
   ctx.fillStyle = "gray";
   ctx.beginPath();
   ctx.moveTo(PIVOT_X - 20, PIVOT_Y);
@@ -97,6 +107,12 @@ function ciz() {
   ctx.lineTo(PIVOT_X, PIVOT_Y + 30);
   ctx.closePath();
   ctx.fill();
+}
+
+// --- Animasyon döngüsü ---
+function animasyonDongusu() {
+  ciz();
+  requestAnimationFrame(animasyonDongusu);
 }
 
 // --- Olay Dinleyicileri ---
@@ -124,8 +140,6 @@ c.addEventListener("click", function (event) {
     sonEklenenDisplay.innerText = randomNumber + "kg";
     localStorage.setItem("agirliklar", JSON.stringify(agirliklar));
     localStorage.setItem("sonEklenen", randomNumber + "kg");
-
-    ciz();
   }
 });
 
@@ -136,7 +150,9 @@ resetBtn.addEventListener("click", function () {
   solToplamDisplay.innerText = "0 kg";
   localStorage.removeItem("agirliklar");
   localStorage.removeItem("sonEklenen");
-  ciz();
+  guncelDerece = 0;
+  hiz = 0;
 });
 
-ciz();
+// Animasyonu başlat
+animasyonDongusu();

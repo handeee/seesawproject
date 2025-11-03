@@ -10,3 +10,4 @@ iptal oldu push methodu ile ağırlıkları diziye ekledim
 @media kullanarak ekran genişliğine göre responsive yaptım
 
 tıklama yaptığımda istediğim noktada tıkalma yapmak için mouse kordinatları kullandım bunun için event parametresi ekledim click eventine
+localstorage le localde verileri kaydetme yapma
