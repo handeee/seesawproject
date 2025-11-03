@@ -47,18 +47,23 @@ function ciz() {
   ctx.clearRect(0, 0, c.width, c.height);
 
   // --- 1. ÖNCE moment ve taraf toplamlarını hesapla ---
-  let toplamMoment = 0;
-  let sagToplam = 0;
-  let solToplam = 0;
+  let sagToplam = 0; // ← EKLE
+  let solToplam = 0; // ← EKLE
+  let sagTorque = 0;
+  let solTorque = 0;
 
   agirliklar.forEach((item) => {
-    toplamMoment += item.deger * item.pozX;
-    if (item.pozX > 0) sagToplam += item.deger;
-    else solToplam += item.deger;
+    if (item.pozX > 0) {
+      sagToplam += item.deger; // ← EKLE
+      sagTorque += item.deger * item.pozX;
+    } else {
+      solToplam += item.deger; // ← EKLE
+      solTorque += item.deger * Math.abs(item.pozX);
+    }
   });
 
   // --- 2. Hedef açıyı hesapla ---
-  let hedefDerece = toplamMoment / 50;
+  let hedefDerece = (sagTorque - solTorque) / 50;
   hedefDerece = Math.max(-30, Math.min(30, hedefDerece));
 
   // --- 3. Fizik benzeri hareket (animasyon) ---
@@ -164,6 +169,8 @@ resetBtn.addEventListener("click", function () {
   localStorage.removeItem("sonEklenen");
   guncelDerece = 0;
   hiz = 0;
+  durduruldumu = false; // ← Ekle
+  pauseBtn.innerText = "Durdur"; // ← Ekle
 });
 
 // Animasyonu başlat
