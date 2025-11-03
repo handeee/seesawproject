@@ -7,12 +7,18 @@ const aciDisplay = document.getElementById("aci");
 const agirlikDisplay = document.getElementById("agirlik");
 const sagToplamDisplay = document.getElementById("sagToplam");
 const solToplamDisplay = document.getElementById("solToplam");
-
+const pauseBtn = document.getElementById("pauseBtn");
 let hiz = 0;
 const SURUKLENME = 0.98;
 const HIZLANMA = 0.008;
+let durduruldumu = false;
 
 let agirliklar = [];
+
+pauseBtn.addEventListener("click", function () {
+  durduruldumu = !durduruldumu; //tıklama olunca tersi olsun
+  pauseBtn.innerText = durduruldumu ? "Devam Et" : "Durdur";
+});
 
 // localStorage'dan verileri yükle
 const kaydedilenVeri = localStorage.getItem("agirliklar");
@@ -56,10 +62,16 @@ function ciz() {
   hedefDerece = Math.max(-30, Math.min(30, hedefDerece));
 
   // --- 3. Fizik benzeri hareket (animasyon) ---
-  const fark = hedefDerece - guncelDerece;
-  hiz += fark * HIZLANMA;
-  hiz *= SURUKLENME;
-  guncelDerece += hiz;
+  if (durduruldumu) {
+    hedefDerece = guncelDerece; // Mevcut pozisyonda kal
+    hiz = 0; // Hareketi tamamen durdur
+  } else {
+    // --- 3. Fizik benzeri hareket (animasyon) ---
+    const fark = hedefDerece - guncelDerece;
+    hiz += fark * HIZLANMA;
+    hiz *= SURUKLENME;
+    guncelDerece += hiz;
+  }
 
   // --- 4. Display güncelle ---
   aciDisplay.innerText = guncelDerece.toFixed(1) + "°";
